@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分页demo</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <style>
+        .banner {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        .page_btn {
+            padding-top: 20px
+        }
+
+        .page_btn a {
+            cursor: pointer;
+            padding: 5px;
+            border: solid 1px #ccc;
+            font-size: 12px
+        }
+
+        .page_box {
+            float: right
+        }
+
+        .num {
+            padding: 0 10px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+        <div class="page_btn clear">
+            <span class="page_box">
+                <a class="prev">上一页</a>
+                <span class="num">
+                    <span class="current_page">1</span>
+                    <span style="padding:0 3px;">/</span>
+                    <span class="total"></span>
+                </span><a class="next">下一页</a>
+            </span>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //    $(document).ready(function() {})等价于$(function() {}) //dom加载完就执行
+        //    $(window).load(function () {})等价于Window.onload = function (){} //页面上的图片执行完才执行
+        $(document).ready(function () {
+            $(".banner ul li:gt(3)").hide(); //初始化，前面的数据显示，后面的隐藏
+            var total_q = $("ul li").length; //总数据
+            var current_page = 4; // 每页显示的数据
+            var current_num = 1; // 当前页数
+            var total_page = Math.round(total_q / current_page); //总页数
+            var next = $(".next"); //下一页
+            var prev = $(".prev"); //上一页
+            $(".total").text(total_page); //显示总页数
+            $(".current_page").text(current_num); //当前的页数
+            // 下一页
+            $(".next").click(function () {
+                if (current_num === total_q) {
+                    return false;
+                } else {
+                    $(".current_page").text(++current_num);
+                    $.each($("ul li"), function (index, item) {
+                        var start = current_page * (current_num - 1);
+                        var end = current_page * current_num;
+                        if (index >= start && index < end) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    })
+                }
+            })
+            // 上一页
+            $(".prev").click(function () {
+                if (current_num === 1) {
+                    return false;
+                } else {
+                    $(".current_page").text(--current_num);
+                    $.each($("ul li"), function (index, item) {
+                        var start = current_page * (current_num - 1);
+                        var end = current_page * current_num;
+                        if (index >= start && index < end) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
